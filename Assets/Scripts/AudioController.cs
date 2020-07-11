@@ -16,6 +16,8 @@ public class AudioController : MonoBehaviour
 
     public AudioSource PlayerJump;
 
+    public AudioSource Slide;
+
     public AudioSource GameOver;
 
     public AudioSource Win;
@@ -36,6 +38,7 @@ public class AudioController : MonoBehaviour
         ItemGet,
         OutOfControl,
         PlayerJump,
+        Slide,
         Win,
         Menu,
         LevelSelect,
@@ -65,6 +68,10 @@ public class AudioController : MonoBehaviour
 
         case SoundEffect.PlayerJump:
             PlayerJump.Play();
+            break;
+
+        case SoundEffect.Slide:
+            Slide.Play();
             break;
 
         case SoundEffect.Win:

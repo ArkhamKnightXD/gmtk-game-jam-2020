@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour
 
             isSliding = true;
 
-            //AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.Attack);
+            //AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.Slide);
         }
 
         if (isSliding)
@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour
 
             isJumping = true;
 
-            //AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.PlayerJump);
+            AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.PlayerJump);
         }
 
 
@@ -167,7 +167,7 @@ public class PlayerController : MonoBehaviour
 
             isJumping = true;
 
-            //AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.PlayerJump);
+            AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.PlayerJump);
         }
 
 
