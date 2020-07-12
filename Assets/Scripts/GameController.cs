@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class GameController : MonoBehaviour
 
     string gameOverTag = "PlayerIsDead";
 
+    int activeSceneIndex;
+
 
     void Start()
     {
@@ -37,7 +40,13 @@ public class GameController : MonoBehaviour
 
         winText.SetActive(false);
 
-       // InvokeRepeating("MakeControlFallFromTheSky", 0, 1.1f);
+        activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        if (activeSceneIndex == 2)
+        {
+            InvokeRepeating("MakeControlFallFromTheSky", 0, 0.35f);   
+        }
+
     }
 
     void Update()
@@ -96,10 +105,14 @@ public class GameController : MonoBehaviour
 
     public void Win()
     {
-        winText.SetActive(true);
+        if (player.CompareTag("Finish"))
+        {
+            winText.SetActive(true);
 
-        retryText.SetActive(true);
+            retryText.SetActive(true);
 
-        AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.Win);
+            AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.Win);    
+        }
+        
     }
 }

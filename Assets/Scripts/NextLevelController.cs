@@ -6,12 +6,18 @@ using UnityEngine.SceneManagement;
 public class NextLevelController : MonoBehaviour
 {
 
+    public GameController gameController;
+    int activeSceneIndex;
+
+
+    void Awake()
+    {
+        activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
+    }
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
-        {
-            SceneManager.LoadScene("Level2");            
-        }
-
+        
+        SceneManager.LoadScene(activeSceneIndex+1);            
+        
     }
 }
