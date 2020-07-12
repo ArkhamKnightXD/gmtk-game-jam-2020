@@ -6,6 +6,10 @@ public class GameController : MonoBehaviour
 {
     public GameObject player;
 
+    public float minimumX;
+
+    public float maximumX;
+
     public GameObject gameOverText;
 
     public GameObject retryText;
@@ -15,6 +19,12 @@ public class GameController : MonoBehaviour
     public TextMesh timerText;
 
     public float currentTime;
+
+    public GameObject fallingControlPrefab;
+
+    public int maximumControlFallingHeight;
+
+    string gameOverTag = "PlayerIsDead";
 
 
     void Start()
@@ -26,17 +36,29 @@ public class GameController : MonoBehaviour
         retryText.SetActive(false);
 
         winText.SetActive(false);
+
+       // InvokeRepeating("MakeControlFallFromTheSky", 0, 1.1f);
     }
 
     void Update()
     {
         DecrementTime();
+
+    }
+
+
+    void MakeControlFallFromTheSky()
+    {
+        if (!player.CompareTag(gameOverTag))
+        {
+            Instantiate(fallingControlPrefab, new Vector3(Random.Range(minimumX, maximumX),maximumControlFallingHeight,0), Quaternion.identity);   
+        }
     }
 
 
     public float DecrementTime()
     { 
-        if (!player.CompareTag("PlayerIsDead"))
+        if (!player.CompareTag(gameOverTag))
         {
             currentTime = currentTime > 0 ? currentTime - 1 * Time.deltaTime : 0;
         
@@ -44,7 +66,7 @@ public class GameController : MonoBehaviour
         }
 
 
-        if (currentTime == 0 && !player.CompareTag("PlayerIsDead"))
+        if (currentTime == 0 && !player.CompareTag(gameOverTag))
         {
 
             gameOverText.SetActive(true);
@@ -53,7 +75,7 @@ public class GameController : MonoBehaviour
 
             AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.GameOver);
 
-            player.tag = "PlayerIsDead";            
+            player.tag = gameOverTag;            
         }
        
         return currentTime;
@@ -68,7 +90,7 @@ public class GameController : MonoBehaviour
 
         AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.GameOver);
 
-        player.tag = "PlayerIsDead";
+        player.tag = gameOverTag;
     }
 
 

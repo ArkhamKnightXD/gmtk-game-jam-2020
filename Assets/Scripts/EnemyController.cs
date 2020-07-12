@@ -20,6 +20,8 @@ public class EnemyController : MonoBehaviour
 
     float horizontalAxis = 2;
 
+    string alwaysJumpingTag = "HighJumpPlayer";
+
     void Awake()
     {
         enemyAnimator = GetComponent<Animator>();
@@ -58,9 +60,9 @@ public class EnemyController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            other.gameObject.tag = "HighJumpPlayer"; 
+            other.tag = alwaysJumpingTag; 
 
             Destroy(gameObject);
         }

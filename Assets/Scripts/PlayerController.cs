@@ -29,6 +29,10 @@ public class PlayerController : MonoBehaviour
     float jumpTime;
 
     bool isJumping = false;
+
+    int outOfControlTime = 5;
+
+    string  playerOutOfControlTag = "PlayerSuicide";
     
 
     void Start()
@@ -60,9 +64,14 @@ public class PlayerController : MonoBehaviour
         if (gameObject.CompareTag("HighJumpPlayer"))
         {
             AlwaysJumping();
+
+            StartCoroutine(StopOutOfControl(outOfControlTime));
         }
 
-        PlayerIsDeathAnimation(); 
+
+        PlayerOutOfControlMovement();
+
+      //  PlayerIsDeathAnimation(); 
     }
 
 
@@ -76,6 +85,27 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    public void PlayerOutOfControlMovement()
+    {
+
+        if (CompareTag(playerOutOfControlTag))
+        {
+
+            deltaPosition = new Vector3(-1,0) * Time.fixedDeltaTime * playerSpeed;
+
+            gameObject.transform.Translate(deltaPosition);
+
+            playerAnimator.SetFloat("HorizontalAxis", 1);
+
+            characterScale = transform.localScale;
+            
+            characterScale.x = -1;
+
+            transform.localScale = characterScale;
+        }
+
+    }
+    
     public void FlipTheCharacter()
     {
         characterScale = transform.localScale;
@@ -155,6 +185,14 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    public IEnumerator StopOutOfControl(int time)
+    {
+        yield return new WaitForSeconds(time);
+
+        tag = "Player";
+    }
+
+
     void AlwaysJumping()
     {
         if (!isJumping)
@@ -184,6 +222,7 @@ public class PlayerController : MonoBehaviour
             }   
         }
     }
+
 
     void PlayerIsDeathAnimation()
     {

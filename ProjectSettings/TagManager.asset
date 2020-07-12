@@ -8,6 +8,7 @@ TagManager:
   - OutOfControl
   - HighJumpPlayer
   - EnemyJumpState
+  - PlayerSuicide
   layers:
   - Default
   - TransparentFX
