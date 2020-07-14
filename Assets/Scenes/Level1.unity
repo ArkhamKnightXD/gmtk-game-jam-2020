@@ -4034,7 +4034,7 @@ PrefabInstance:
     - target: {fileID: 2695169198043712792, guid: a32076a12096e9d408d42a0a5a392754,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -24.701178
+      value: -26.501177
       objectReference: {fileID: 0}
     - target: {fileID: 2695169198043712792, guid: a32076a12096e9d408d42a0a5a392754,
         type: 3}
@@ -4130,6 +4130,11 @@ PrefabInstance:
       propertyPath: timerText
       value: 
       objectReference: {fileID: 1480881939}
+    - target: {fileID: 5188599420319086164, guid: ad7d767ae5e24c641810a4e23e0983d2,
+        type: 3}
+      propertyPath: currentTime
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5188599420319086168, guid: ad7d767ae5e24c641810a4e23e0983d2,
         type: 3}
       propertyPath: m_Name
@@ -4202,7 +4207,7 @@ PrefabInstance:
     - target: {fileID: 6709330187930111509, guid: 887835ea832f4074d8120eb295fd0452,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -24.701178
+      value: -26.501177
       objectReference: {fileID: 0}
     - target: {fileID: 6709330187930111509, guid: 887835ea832f4074d8120eb295fd0452,
         type: 3}
@@ -4276,7 +4281,7 @@ PrefabInstance:
     - target: {fileID: 6894497921722907327, guid: b1d9ba62364c7d04bb5196d0e967368c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -27.2
+      value: -29
       objectReference: {fileID: 0}
     - target: {fileID: 6894497921722907327, guid: b1d9ba62364c7d04bb5196d0e967368c,
         type: 3}
@@ -4402,5 +4407,10 @@ PrefabInstance:
       propertyPath: gameController
       value: 
       objectReference: {fileID: 198301594}
+    - target: {fileID: 7304078196038513253, guid: 0217f9cd66c0af64d832c7b5c20a7cc5,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1339672354}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0217f9cd66c0af64d832c7b5c20a7cc5, type: 3}

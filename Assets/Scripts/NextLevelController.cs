@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class NextLevelController : MonoBehaviour
 {
-
     public GameController gameController;
+
+    public GameObject player;
     int activeSceneIndex;
 
 
@@ -16,8 +17,13 @@ public class NextLevelController : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-        
-        SceneManager.LoadScene(activeSceneIndex+1);            
+        if (CompareTag("EndGame"))
+        {
+            Destroy(gameObject);
+            gameController.Win();    
+        }
+        else
+            SceneManager.LoadScene(activeSceneIndex+1);            
         
     }
 }

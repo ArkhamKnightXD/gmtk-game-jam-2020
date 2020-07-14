@@ -52,7 +52,6 @@ public class GameController : MonoBehaviour
     void Update()
     {
         DecrementTime();
-
     }
 
 
@@ -67,7 +66,7 @@ public class GameController : MonoBehaviour
 
     public float DecrementTime()
     { 
-        if (!player.CompareTag(gameOverTag))
+        if (!player.CompareTag(gameOverTag) && !player.CompareTag("Finish"))
         {
             currentTime = currentTime > 0 ? currentTime - 1 * Time.deltaTime : 0;
         
@@ -105,14 +104,14 @@ public class GameController : MonoBehaviour
 
     public void Win()
     {
-        if (player.CompareTag("Finish"))
-        {
-            winText.SetActive(true);
-
-            retryText.SetActive(true);
-
-            AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.Win);    
-        }
         
+        winText.SetActive(true);
+
+        retryText.SetActive(true);
+
+        AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.Win);
+
+        player.tag = "Finish";    
+    
     }
 }

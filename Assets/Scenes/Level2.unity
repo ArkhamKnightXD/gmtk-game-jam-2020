@@ -973,6 +973,11 @@ PrefabInstance:
       propertyPath: gameOverText
       value: 
       objectReference: {fileID: 1905702158}
+    - target: {fileID: 5188599420319086164, guid: ad7d767ae5e24c641810a4e23e0983d2,
+        type: 3}
+      propertyPath: currentTime
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 5188599420319086168, guid: ad7d767ae5e24c641810a4e23e0983d2,
         type: 3}
       propertyPath: m_Name
