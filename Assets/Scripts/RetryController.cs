@@ -7,7 +7,6 @@ public class RetryController : MonoBehaviour
 {
     string currentSceneName;
 
-
     void Start()
     {
         currentSceneName = SceneManager.GetActiveScene().name;

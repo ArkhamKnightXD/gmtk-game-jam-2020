@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
 
     Animator playerAnimator;
 
+    SpriteRenderer spriteRenderer;
+
     Vector3 deltaPosition;
 
     float horizontalAxis;
@@ -24,15 +26,15 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody2D _rigidbody;
 
-    Vector3 characterScale;
-
     float jumpTime;
 
     bool isJumping = false;
 
     int outOfControlTime = 4;
 
-    string  playerOutOfControlTag = "PlayerSuicide";
+    static readonly string  playerOutOfControlTag = "PlayerSuicide";
+
+    static readonly string jump = "Jump";
     
 
     void Start()
@@ -40,6 +42,8 @@ public class PlayerController : MonoBehaviour
         playerAnimator = GetComponent<Animator>();
 
         _rigidbody = GetComponent<Rigidbody2D>();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
 
@@ -70,8 +74,6 @@ public class PlayerController : MonoBehaviour
 
 
         PlayerOutOfControlMovement();
-
-      //  PlayerIsDeathAnimation(); 
     }
 
 
@@ -97,30 +99,21 @@ public class PlayerController : MonoBehaviour
 
             playerAnimator.SetFloat("HorizontalAxis", 1);
 
-            characterScale = transform.localScale;
-            
-            characterScale.x = -1;
-
-            transform.localScale = characterScale;
+            spriteRenderer.flipX = true;
         }
 
     }
     
     public void FlipTheCharacter()
     {
-        characterScale = transform.localScale;
 
         if (horizontalAxis < 0)
         {
-            characterScale.x = -1;
+            spriteRenderer.flipX = true;
         }
 
-        if (horizontalAxis > 0)
-        {
-            characterScale.x = 1;
-        }
-
-        transform.localScale = characterScale;
+        else
+            spriteRenderer.flipX = false;  
     }
 
 
@@ -135,7 +128,7 @@ public class PlayerController : MonoBehaviour
 
             isSliding = true;
 
-            //AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.Slide);
+            AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.PlayerJump);
         }
 
         if (isSliding)
@@ -156,13 +149,13 @@ public class PlayerController : MonoBehaviour
 
     void CharacterJump()
     {
-        if (Input.GetButton("Jump") && !isJumping)
+        if (Input.GetButton(jump) && !isJumping)
         {
             jumpTime = 0f;
 
             _rigidbody.AddForce(transform.up * jumpForce);
 
-            playerAnimator.SetBool("Jump", true);
+            playerAnimator.SetBool(jump, true);
 
             isJumping = true;
 
@@ -178,7 +171,7 @@ public class PlayerController : MonoBehaviour
             {
                 isJumping = false;
 
-                playerAnimator.SetBool("Jump", false);
+                playerAnimator.SetBool(jump, false);
 
             }   
         }   
@@ -187,7 +180,7 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator StopOutOfControl(int time)
     {
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSecondsRealtime(time);
 
         tag = "Player";
     }
@@ -201,7 +194,7 @@ public class PlayerController : MonoBehaviour
 
             _rigidbody.AddForce(transform.up * jumpForce);
 
-            playerAnimator.SetBool("Jump", true);
+            playerAnimator.SetBool(jump, true);
 
             isJumping = true;
 
@@ -217,19 +210,9 @@ public class PlayerController : MonoBehaviour
             {
                 isJumping = false;
 
-                playerAnimator.SetBool("Jump", false);
+                playerAnimator.SetBool(jump, false);
 
             }   
         }
     }
-
-
-    void PlayerIsDeathAnimation()
-    {
-        if (gameObject.CompareTag("PlayerIsDead"))
-        {
-            playerAnimator.SetBool("CharacterIsDead", true);   
-        }
-    }
-
 }

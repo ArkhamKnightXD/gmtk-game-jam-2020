@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-
     Animator enemyAnimator;
+    
     Vector3 enemyMovement;
 
     bool movingRight = true;
@@ -20,7 +20,7 @@ public class EnemyController : MonoBehaviour
 
     float horizontalAxis = 2;
 
-    string alwaysJumpingTag = "HighJumpPlayer";
+    static readonly string alwaysJumpingTag = "HighJumpPlayer";
 
     void Awake()
     {

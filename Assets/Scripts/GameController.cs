@@ -25,7 +25,7 @@ public class GameController : MonoBehaviour
 
     public int maximumControlFallingHeight;
 
-    string gameOverTag = "PlayerIsDead";
+    static readonly string gameOverTag = "PlayerIsDead";
 
     int activeSceneIndex;
 

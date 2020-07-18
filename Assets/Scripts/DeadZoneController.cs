@@ -6,7 +6,6 @@ public class DeadZoneController : MonoBehaviour
 {
     public GameController gameController;
 
-
     void OnTriggerEnter2D(Collider2D other)
     {
 
