@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
     bool isJumping = false;
 
-    int outOfControlTime = 4;
+    int outOfControlTime = 2;
 
     static readonly string  playerOutOfControlTag = "PlayerSuicide";
 
