@@ -9,11 +9,14 @@ public class DeadZoneController : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
 
-        Destroy(other.gameObject);
-
         if (other.CompareTag("Player") || other.CompareTag("PlayerSuicide"))
         {
-            gameController.GameOverByFall();            
+            gameController.GameOverByFall();
+
+            other.gameObject.SetActive(false);            
         }
+
+        else
+            Destroy(other.gameObject);
     }
 }
