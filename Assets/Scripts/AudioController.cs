@@ -26,10 +26,12 @@ public class AudioController : MonoBehaviour
 
     public AudioSource LevelSelect;
 
+
     private void Awake()
     {
         Instance = this;
     }
+
     
     public enum SoundEffect
     {
@@ -44,6 +46,7 @@ public class AudioController : MonoBehaviour
         LevelSelect,
         GameOver
     }
+    
 
     public void PlaySoundEffect(SoundEffect type)
     {

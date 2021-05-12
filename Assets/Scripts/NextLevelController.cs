@@ -7,20 +7,20 @@ public class NextLevelController : MonoBehaviour
 {
     public GameController gameController;
 
-    public GameObject player;
-
     int activeSceneIndex;
+
 
     void Awake()
     {
         activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
     }
     
+    
     void OnTriggerEnter2D(Collider2D other)
     {
         if (CompareTag("EndGame"))
         {
-            Destroy(gameObject);
+            other.gameObject.SetActive(false);
             gameController.Win();    
         }
         else

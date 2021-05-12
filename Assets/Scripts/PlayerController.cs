@@ -51,12 +51,9 @@ public class PlayerController : MonoBehaviour
     {
         horizontalAxis = Input.GetAxis("Horizontal");
 
-
         if (gameObject.CompareTag("Player"))
         {
             PlayerMovement();
-        
-            FlipTheCharacter();
 
             CharacterJump();
 
@@ -73,7 +70,10 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        PlayerOutOfControlMovement();
+        if (CompareTag(playerOutOfControlTag))
+        {
+            PlayerOutOfControlMovement();
+        }
     }
 
 
@@ -84,23 +84,21 @@ public class PlayerController : MonoBehaviour
         gameObject.transform.Translate(deltaPosition);
 
         playerAnimator.SetFloat("HorizontalAxis", Mathf.Abs(horizontalAxis));
+
+        FlipTheCharacter();
     }
 
 
     public void PlayerOutOfControlMovement()
     {
 
-        if (CompareTag(playerOutOfControlTag))
-        {
+        deltaPosition = new Vector3(-1,0) * Time.fixedDeltaTime * playerSpeed;
 
-            deltaPosition = new Vector3(-1,0) * Time.fixedDeltaTime * playerSpeed;
+        gameObject.transform.Translate(deltaPosition);
 
-            gameObject.transform.Translate(deltaPosition);
+        playerAnimator.SetFloat("HorizontalAxis", 1);
 
-            playerAnimator.SetFloat("HorizontalAxis", 1);
-
-            spriteRenderer.flipX = true;
-        }
+        spriteRenderer.flipX = true;
 
     }
     

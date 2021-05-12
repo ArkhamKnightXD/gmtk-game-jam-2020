@@ -22,10 +22,12 @@ public class EnemyController : MonoBehaviour
 
     static readonly string alwaysJumpingTag = "HighJumpPlayer";
 
+
     void Awake()
     {
         enemyAnimator = GetComponent<Animator>();
     }
+    
 
     void FixedUpdate()
     {
