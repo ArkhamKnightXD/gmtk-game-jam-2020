@@ -1,12 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
     Animator enemyAnimator;
-    
-    Vector3 enemyMovement;
 
     bool movingRight = true;
 
@@ -16,11 +12,11 @@ public class EnemyController : MonoBehaviour
 
     RaycastHit2D groundInformation;
 
-    float distance = 2;
+    readonly float distance = 2;
 
-    float horizontalAxis = 2;
+    readonly float horizontalAxis = 2;
 
-    static readonly string alwaysJumpingTag = "HighJumpPlayer";
+    readonly string alwaysJumpingTag = "HighJumpPlayer";
 
 
     void Awake()
@@ -29,7 +25,7 @@ public class EnemyController : MonoBehaviour
     }
     
 
-    void FixedUpdate()
+    void Update()
     {
         EnemyPatrolMovement();
     }
@@ -51,7 +47,9 @@ public class EnemyController : MonoBehaviour
                 transform.eulerAngles = new Vector3(0,-180,0);
                 movingRight = false;
 
-            }else
+            }
+            
+            else
             {
                 transform.eulerAngles = new Vector3(0,0,0);
                 movingRight = true;

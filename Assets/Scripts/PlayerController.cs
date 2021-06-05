@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -8,15 +7,15 @@ public class PlayerController : MonoBehaviour
 
     public float jumpForce;
 
+    float jumpTime;
+
+    bool isJumping = false;
+
     bool isSliding = false;
 
     float sliderTime;
 
     public float maxSliderTime;
-
-    Animator playerAnimator;
-
-    SpriteRenderer spriteRenderer;
 
     Vector3 deltaPosition;
 
@@ -24,30 +23,34 @@ public class PlayerController : MonoBehaviour
 
     public float playerSpeed;
 
-    Rigidbody2D _rigidbody;
+    Animator playerAnimator;
 
-    float jumpTime;
+    SpriteRenderer playerSpriteRenderer;
 
-    bool isJumping = false;
+    Rigidbody2D playerRigidBody;
 
-    int outOfControlTime = 2;
+    BoxCollider2D playerBoxCollider;
 
-    static readonly string  playerOutOfControlTag = "PlayerSuicide";
+    readonly int outOfControlTime = 2;
 
-    static readonly string jump = "Jump";
+    readonly string  playerOutOfControlTag = "PlayerSuicide";
+
+    readonly string jump = "Jump";
     
 
     void Start()
     {
         playerAnimator = GetComponent<Animator>();
 
-        _rigidbody = GetComponent<Rigidbody2D>();
+        playerRigidBody = GetComponent<Rigidbody2D>();
 
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        playerSpriteRenderer = GetComponent<SpriteRenderer>();
+
+        playerBoxCollider = GetComponent<BoxCollider2D>();
     }
 
 
-    void FixedUpdate()
+    void Update()
     {
         horizontalAxis = Input.GetAxis("Horizontal");
 
@@ -98,20 +101,17 @@ public class PlayerController : MonoBehaviour
 
         playerAnimator.SetFloat("HorizontalAxis", 1);
 
-        spriteRenderer.flipX = true;
+        playerSpriteRenderer.flipX = true;
 
     }
     
     public void FlipTheCharacter()
     {
-
         if (horizontalAxis < 0)
-        {
-            spriteRenderer.flipX = true;
-        }
+            playerSpriteRenderer.flipX = true;
 
         else
-            spriteRenderer.flipX = false;  
+            playerSpriteRenderer.flipX = false;  
     }
 
 
@@ -121,7 +121,7 @@ public class PlayerController : MonoBehaviour
         {
             sliderTime =0f;
 
-            gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            playerBoxCollider.enabled = false;
             playerAnimator.SetBool("Slide", true);
 
             isSliding = true;
@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour
 
                 playerAnimator.SetBool("Slide", false);
 
-                gameObject.GetComponent<BoxCollider2D>().enabled = true;
+                playerBoxCollider.enabled = true;
             }   
         }
     }
@@ -151,7 +151,7 @@ public class PlayerController : MonoBehaviour
         {
             jumpTime = 0f;
 
-            _rigidbody.AddForce(transform.up * jumpForce);
+            playerRigidBody.AddForce(transform.up * jumpForce);
 
             playerAnimator.SetBool(jump, true);
 
@@ -170,7 +170,6 @@ public class PlayerController : MonoBehaviour
                 isJumping = false;
 
                 playerAnimator.SetBool(jump, false);
-
             }   
         }   
     }
@@ -190,7 +189,7 @@ public class PlayerController : MonoBehaviour
         {
             jumpTime = 0f;
 
-            _rigidbody.AddForce(transform.up * jumpForce);
+            playerRigidBody.AddForce(transform.up * jumpForce);
 
             playerAnimator.SetBool(jump, true);
 
@@ -209,7 +208,6 @@ public class PlayerController : MonoBehaviour
                 isJumping = false;
 
                 playerAnimator.SetBool(jump, false);
-
             }   
         }
     }
