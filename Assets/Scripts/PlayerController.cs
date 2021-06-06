@@ -147,7 +147,7 @@ public class PlayerController : MonoBehaviour
 
     void CharacterJump()
     {
-        if (Input.GetButton(jump) && !isJumping)
+        if (Input.GetButtonDown(jump) && !isJumping && !isSliding)
         {
             jumpTime = 0f;
 
