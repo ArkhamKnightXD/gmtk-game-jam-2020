@@ -1,31 +1,34 @@
 ﻿using UnityEngine;
+using static UnityEngine.Vector2;
 
 public class EnemyController : MonoBehaviour
 {
-    Animator enemyAnimator;
+    private Animator _enemyAnimator;
 
-    bool movingRight = true;
+    private bool _movingRight = true;
 
     public float Speed = 5;
 
     public Transform groundDetection;
 
-    RaycastHit2D groundInformation;
+    private RaycastHit2D _groundInformation;
 
-    readonly float distance = 2;
+    private readonly float _distance = 2;
 
-    readonly float horizontalAxis = 2;
+    private readonly float _horizontalAxis = 2;
 
-    readonly string alwaysJumpingTag = "HighJumpPlayer";
-
-
-    void Awake()
-    {
-        enemyAnimator = GetComponent<Animator>();
-    }
+    private readonly string alwaysJumpingTag = "HighJumpPlayer";
     
+    private readonly string _horizontalAxisName = "HorizontalAxis";
 
-    void Update()
+
+    private void Awake()
+    {
+        _enemyAnimator = GetComponent<Animator>();
+    }
+
+
+    private void Update()
     {
         EnemyPatrolMovement();
     }
@@ -33,38 +36,37 @@ public class EnemyController : MonoBehaviour
 
     private void EnemyPatrolMovement()
     {
-        gameObject.transform.Translate(Vector2.right * Speed * Time.fixedDeltaTime);
+        gameObject.transform.Translate(right * (Speed * Time.deltaTime));
 
-        groundInformation = Physics2D.Raycast(groundDetection.position,Vector2.down,distance);
+        _groundInformation = Physics2D.Raycast(groundDetection.position,down,_distance);
         
-        if (groundInformation.collider == false)
+        if (_groundInformation.collider == false)
         {
 
-            enemyAnimator.SetFloat("HorizontalAxis" , horizontalAxis);
+            _enemyAnimator.SetFloat(_horizontalAxisName , _horizontalAxis);
 
-            if (movingRight == true)
+            if (_movingRight)
             {
                 transform.eulerAngles = new Vector3(0,-180,0);
-                movingRight = false;
-
+                _movingRight = false;
             }
             
             else
             {
                 transform.eulerAngles = new Vector3(0,0,0);
-                movingRight = true;
+                _movingRight = true;
             }
         }
     }
 
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
-        {
-            other.tag = alwaysJumpingTag; 
+        if (!other.CompareTag("Player"))
+            return;
+        
+        other.tag = alwaysJumpingTag; 
 
-            Destroy(gameObject);
-        }
+        Destroy(gameObject);
     }
 }

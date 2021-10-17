@@ -3,16 +3,15 @@ using UnityEngine.SceneManagement;
 
 public class RetryController : MonoBehaviour
 {
-    string currentSceneName;
+    private string _currentSceneName;
 
-    void Start()
+    private void Start()
     {
-        currentSceneName = SceneManager.GetActiveScene().name;
+        _currentSceneName = SceneManager.GetActiveScene().name;
     }
 
-    void OnMouseDown()
+    private void OnMouseDown()
     {
-        SceneManager.LoadScene(currentSceneName);
+        SceneManager.LoadScene(_currentSceneName);
     }
-    
 }

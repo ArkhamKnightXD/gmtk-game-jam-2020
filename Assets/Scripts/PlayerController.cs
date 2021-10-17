@@ -7,52 +7,52 @@ public class PlayerController : MonoBehaviour
 
     public float jumpForce;
 
-    float jumpTime;
+    private float _jumpTime;
 
-    bool isJumping = false;
+    private bool _isJumping = false;
 
-    bool isSliding = false;
+    private bool _isSliding = false;
 
-    float sliderTime;
+    private float _sliderTime;
 
     public float maxSliderTime;
 
-    Vector3 deltaPosition;
+    private Vector3 _deltaPosition;
 
-    float horizontalAxis;
+    private float _horizontalAxis;
 
     public float playerSpeed;
 
-    Animator playerAnimator;
+    private Animator _playerAnimator;
 
-    SpriteRenderer playerSpriteRenderer;
+    private SpriteRenderer _playerSpriteRenderer;
 
-    Rigidbody2D playerRigidBody;
+    private Rigidbody2D _playerRigidBody;
 
-    BoxCollider2D playerBoxCollider;
+    private BoxCollider2D _playerBoxCollider;
 
-    readonly int outOfControlTime = 2;
+    private readonly int _outOfControlTime = 2;
 
-    readonly string  playerOutOfControlTag = "PlayerSuicide";
+    readonly string  _playerOutOfControlTag = "PlayerSuicide";
 
-    readonly string jump = "Jump";
-    
+    private readonly string _jump = "Jump";
 
-    void Start()
+
+    private void Start()
     {
-        playerAnimator = GetComponent<Animator>();
+        _playerAnimator = GetComponent<Animator>();
 
-        playerRigidBody = GetComponent<Rigidbody2D>();
+        _playerRigidBody = GetComponent<Rigidbody2D>();
 
-        playerSpriteRenderer = GetComponent<SpriteRenderer>();
+        _playerSpriteRenderer = GetComponent<SpriteRenderer>();
 
-        playerBoxCollider = GetComponent<BoxCollider2D>();
+        _playerBoxCollider = GetComponent<BoxCollider2D>();
     }
 
 
-    void Update()
+    private void Update()
     {
-        horizontalAxis = Input.GetAxis("Horizontal");
+        _horizontalAxis = Input.GetAxis("Horizontal");
 
         if (gameObject.CompareTag("Player"))
         {
@@ -69,11 +69,11 @@ public class PlayerController : MonoBehaviour
         {
             AlwaysJumping();
 
-            StartCoroutine(StopOutOfControl(outOfControlTime));
+            StartCoroutine(StopOutOfControl(_outOfControlTime));
         }
 
 
-        if (CompareTag(playerOutOfControlTag))
+        if (CompareTag(_playerOutOfControlTag))
         {
             PlayerOutOfControlMovement();
         }
@@ -82,11 +82,11 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerMovement()
     {
-        deltaPosition = new Vector3(horizontalAxis,0) * Time.fixedDeltaTime * playerSpeed;
+        _deltaPosition = new Vector3(_horizontalAxis,0) * Time.deltaTime * playerSpeed;
 
-        gameObject.transform.Translate(deltaPosition);
+        gameObject.transform.Translate(_deltaPosition);
 
-        playerAnimator.SetFloat("HorizontalAxis", Mathf.Abs(horizontalAxis));
+        _playerAnimator.SetFloat("HorizontalAxis", Mathf.Abs(_horizontalAxis));
 
         FlipTheCharacter();
     }
@@ -95,81 +95,81 @@ public class PlayerController : MonoBehaviour
     public void PlayerOutOfControlMovement()
     {
 
-        deltaPosition = new Vector3(-1,0) * Time.fixedDeltaTime * playerSpeed;
+        _deltaPosition = new Vector3(-1,0) * Time.deltaTime * playerSpeed;
 
-        gameObject.transform.Translate(deltaPosition);
+        gameObject.transform.Translate(_deltaPosition);
 
-        playerAnimator.SetFloat("HorizontalAxis", 1);
+        _playerAnimator.SetFloat("HorizontalAxis", 1);
 
-        playerSpriteRenderer.flipX = true;
+        _playerSpriteRenderer.flipX = true;
 
     }
     
-    public void FlipTheCharacter()
+    private void FlipTheCharacter()
     {
-        if (horizontalAxis < 0)
-            playerSpriteRenderer.flipX = true;
+        if (_horizontalAxis < 0)
+            _playerSpriteRenderer.flipX = true;
 
         else
-            playerSpriteRenderer.flipX = false;  
+            _playerSpriteRenderer.flipX = false;  
     }
 
 
-    public void CharacterSlide()
+    private void CharacterSlide()
     {
-        if (Input.GetButtonDown("Fire3") && !isSliding)
+        if (Input.GetButtonDown("Fire3") && !_isSliding)
         {
-            sliderTime =0f;
+            _sliderTime =0f;
 
-            playerBoxCollider.enabled = false;
-            playerAnimator.SetBool("Slide", true);
+            _playerBoxCollider.enabled = false;
+            _playerAnimator.SetBool("Slide", true);
 
-            isSliding = true;
+            _isSliding = true;
 
             AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.PlayerJump);
         }
 
-        if (isSliding)
+        if (_isSliding)
         {
-            sliderTime += Time.fixedDeltaTime;
+            _sliderTime += Time.deltaTime;
 
-            if (sliderTime > maxSliderTime)
+            if (_sliderTime > maxSliderTime)
             {
-                isSliding = false;
+                _isSliding = false;
 
-                playerAnimator.SetBool("Slide", false);
+                _playerAnimator.SetBool("Slide", false);
 
-                playerBoxCollider.enabled = true;
+                _playerBoxCollider.enabled = true;
             }   
         }
     }
 
 
-    void CharacterJump()
+    private void CharacterJump()
     {
-        if (Input.GetButtonDown(jump) && !isJumping && !isSliding)
+        if (Input.GetButtonDown(_jump) && !_isJumping && !_isSliding)
         {
-            jumpTime = 0f;
+            _jumpTime = 0f;
 
-            playerRigidBody.AddForce(transform.up * jumpForce);
+            _playerRigidBody.AddForce(transform.up * jumpForce);
 
-            playerAnimator.SetBool(jump, true);
+            _playerAnimator.SetBool(_jump, true);
 
-            isJumping = true;
+            _isJumping = true;
 
             AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.PlayerJump);
         }
 
 
-        if (isJumping)
+        if (_isJumping)
         {
-            jumpTime += Time.fixedDeltaTime;
+            _jumpTime += Time.deltaTime;
 
-            if (jumpTime > maxJumpingTime)
+            if (_jumpTime > maxJumpingTime)
             {
-                isJumping = false;
+                _isJumping = false;
 
-                playerAnimator.SetBool(jump, false);
+                _playerAnimator.SetBool(_jump, false);
             }   
         }   
     }
@@ -183,31 +183,31 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void AlwaysJumping()
+    private void AlwaysJumping()
     {
-        if (!isJumping)
+        if (!_isJumping)
         {
-            jumpTime = 0f;
+            _jumpTime = 0f;
 
-            playerRigidBody.AddForce(transform.up * jumpForce);
+            _playerRigidBody.AddForce(transform.up * jumpForce);
 
-            playerAnimator.SetBool(jump, true);
+            _playerAnimator.SetBool(_jump, true);
 
-            isJumping = true;
+            _isJumping = true;
 
             AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.PlayerJump);
         }
 
 
-        if (isJumping)
+        if (_isJumping)
         {
-            jumpTime += Time.fixedDeltaTime;
+            _jumpTime += Time.deltaTime;
 
-            if (jumpTime > maxJumpingTime)
+            if (_jumpTime > maxJumpingTime)
             {
-                isJumping = false;
+                _isJumping = false;
 
-                playerAnimator.SetBool(jump, false);
+                _playerAnimator.SetBool(_jump, false);
             }   
         }
     }

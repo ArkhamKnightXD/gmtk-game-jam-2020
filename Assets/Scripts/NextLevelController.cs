@@ -7,16 +7,16 @@ public class NextLevelController : MonoBehaviour
 {
     public GameController gameController;
 
-    int activeSceneIndex;
+    private int _activeSceneIndex;
 
 
-    void Awake()
+    private void Awake()
     {
-        activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        _activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
     }
-    
-    
-    void OnTriggerEnter2D(Collider2D other)
+
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (CompareTag("EndGame"))
         {
@@ -24,7 +24,7 @@ public class NextLevelController : MonoBehaviour
             gameController.Win();    
         }
         else
-            SceneManager.LoadScene(activeSceneIndex+1);            
+            SceneManager.LoadScene(_activeSceneIndex+1);            
         
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class AudioController : MonoBehaviour
@@ -94,7 +93,9 @@ public class AudioController : MonoBehaviour
         case SoundEffect.LevelSelect:
             LevelSelect.Play();
             break;
-            
+
+        default:
+            throw new ArgumentOutOfRangeException(nameof(type), type, null);
         }
     }
 }

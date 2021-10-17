@@ -23,12 +23,12 @@ public class GameController : MonoBehaviour
 
     public int maximumControlFallingHeight;
 
-    readonly string gameOverTag = "PlayerIsDead";
+    private readonly string _gameOverTag = "PlayerIsDead";
 
-    int activeSceneIndex;
+    private int _activeSceneIndex;
 
 
-    void Start()
+    private void Start()
     {
         AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.GameSong);
 
@@ -38,25 +38,25 @@ public class GameController : MonoBehaviour
 
         winText.SetActive(false);
 
-        activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        _activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
-        if (activeSceneIndex == 2)
+        if (_activeSceneIndex == 2)
         {
             InvokeRepeating("MakeControlFallFromTheSky", 0, 0.35f);   
         }
 
     }
-    
 
-    void Update()
+
+    private void Update()
     {
         DecrementTime();
     }
 
 
-    void MakeControlFallFromTheSky()
+    private void MakeControlFallFromTheSky()
     {
-        if (!player.CompareTag(gameOverTag))
+        if (!player.CompareTag(_gameOverTag))
         {
             Instantiate(fallingControlPrefab, new Vector3(Random.Range(minimumX, maximumX),maximumControlFallingHeight,0), Quaternion.identity);   
         }
@@ -65,7 +65,7 @@ public class GameController : MonoBehaviour
 
     public float DecrementTime()
     { 
-        if (!player.CompareTag(gameOverTag) && !player.CompareTag("Finish"))
+        if (!player.CompareTag(_gameOverTag) && !player.CompareTag("Finish"))
         {
             currentTime = currentTime > 0 ? currentTime - 1 * Time.deltaTime : 0;
         
@@ -73,16 +73,15 @@ public class GameController : MonoBehaviour
         }
 
 
-        if (currentTime == 0 && !player.CompareTag(gameOverTag))
+        if (currentTime == 0 && !player.CompareTag(_gameOverTag))
         {
-
             gameOverText.SetActive(true);
 
             retryText.SetActive(true);
 
             AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.GameOver);
 
-            player.tag = gameOverTag;            
+            player.tag = _gameOverTag;            
         }
        
         return currentTime;
@@ -97,20 +96,18 @@ public class GameController : MonoBehaviour
 
         AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.GameOver);
 
-        player.tag = gameOverTag;
+        player.tag = _gameOverTag;
     }
 
 
     public void Win()
     {
-        
         winText.SetActive(true);
 
         retryText.SetActive(true);
 
         AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.Win);
 
-        player.tag = "Finish";    
-    
+        player.tag = "Finish";
     }
 }
