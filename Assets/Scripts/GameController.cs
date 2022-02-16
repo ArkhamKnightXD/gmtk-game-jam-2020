@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour
 
     public int maximumControlFallingHeight;
 
-    private readonly string _gameOverTag = "PlayerIsDead";
+    private const string GameOverTag = "PlayerIsDead";
 
     private int _activeSceneIndex;
 
@@ -56,16 +56,16 @@ public class GameController : MonoBehaviour
 
     private void MakeControlFallFromTheSky()
     {
-        if (!player.CompareTag(_gameOverTag))
+        if (!player.CompareTag(GameOverTag))
         {
             Instantiate(fallingControlPrefab, new Vector3(Random.Range(minimumX, maximumX),maximumControlFallingHeight,0), Quaternion.identity);   
         }
     }
 
 
-    public float DecrementTime()
+    private void DecrementTime()
     { 
-        if (!player.CompareTag(_gameOverTag) && !player.CompareTag("Finish"))
+        if (!player.CompareTag(GameOverTag) && !player.CompareTag("Finish"))
         {
             currentTime = currentTime > 0 ? currentTime - 1 * Time.deltaTime : 0;
         
@@ -73,7 +73,7 @@ public class GameController : MonoBehaviour
         }
 
 
-        if (currentTime == 0 && !player.CompareTag(_gameOverTag))
+        if (currentTime == 0 && !player.CompareTag(GameOverTag))
         {
             gameOverText.SetActive(true);
 
@@ -81,10 +81,8 @@ public class GameController : MonoBehaviour
 
             AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.GameOver);
 
-            player.tag = _gameOverTag;            
+            player.tag = GameOverTag;            
         }
-       
-        return currentTime;
     }
 
 
@@ -96,7 +94,7 @@ public class GameController : MonoBehaviour
 
         AudioController.Instance.PlaySoundEffect(AudioController.SoundEffect.GameOver);
 
-        player.tag = _gameOverTag;
+        player.tag = GameOverTag;
     }
 
 

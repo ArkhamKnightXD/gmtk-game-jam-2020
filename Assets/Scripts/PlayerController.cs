@@ -9,9 +9,9 @@ public class PlayerController : MonoBehaviour
 
     private float _jumpTime;
 
-    private bool _isJumping = false;
+    private bool _isJumping;
 
-    private bool _isSliding = false;
+    private bool _isSliding;
 
     private float _sliderTime;
 
@@ -31,11 +31,15 @@ public class PlayerController : MonoBehaviour
 
     private BoxCollider2D _playerBoxCollider;
 
-    private readonly int _outOfControlTime = 2;
+    private const int OutOfControlTime = 2;
 
-    readonly string  _playerOutOfControlTag = "PlayerSuicide";
+    private const string PlayerOutOfControlTag = "PlayerSuicide";
 
-    private readonly string _jump = "Jump";
+    private const string Jump = "Jump";
+    
+    //Forma mas eficiente de enviar los nombres de las variables al animator
+    private static readonly int HorizontalAxis = Animator.StringToHash("HorizontalAxis");
+    private static readonly int Slide = Animator.StringToHash("Slide");
 
 
     private void Start()
@@ -69,37 +73,37 @@ public class PlayerController : MonoBehaviour
         {
             AlwaysJumping();
 
-            StartCoroutine(StopOutOfControl(_outOfControlTime));
+            StartCoroutine(StopOutOfControl(OutOfControlTime));
         }
 
 
-        if (CompareTag(_playerOutOfControlTag))
+        if (CompareTag(PlayerOutOfControlTag))
         {
             PlayerOutOfControlMovement();
         }
     }
 
 
-    public void PlayerMovement()
+    private void PlayerMovement()
     {
-        _deltaPosition = new Vector3(_horizontalAxis,0) * Time.deltaTime * playerSpeed;
+        _deltaPosition = new Vector3(_horizontalAxis,0) * (Time.deltaTime * playerSpeed);
 
         gameObject.transform.Translate(_deltaPosition);
 
-        _playerAnimator.SetFloat("HorizontalAxis", Mathf.Abs(_horizontalAxis));
+        _playerAnimator.SetFloat(HorizontalAxis, Mathf.Abs(_horizontalAxis));
 
         FlipTheCharacter();
     }
 
 
-    public void PlayerOutOfControlMovement()
+    private void PlayerOutOfControlMovement()
     {
 
-        _deltaPosition = new Vector3(-1,0) * Time.deltaTime * playerSpeed;
+        _deltaPosition = new Vector3(-1,0) * (Time.deltaTime * playerSpeed);
 
         gameObject.transform.Translate(_deltaPosition);
 
-        _playerAnimator.SetFloat("HorizontalAxis", 1);
+        _playerAnimator.SetFloat(HorizontalAxis, 1);
 
         _playerSpriteRenderer.flipX = true;
 
@@ -122,7 +126,7 @@ public class PlayerController : MonoBehaviour
             _sliderTime =0f;
 
             _playerBoxCollider.enabled = false;
-            _playerAnimator.SetBool("Slide", true);
+            _playerAnimator.SetBool(Slide, true);
 
             _isSliding = true;
 
@@ -137,7 +141,7 @@ public class PlayerController : MonoBehaviour
             {
                 _isSliding = false;
 
-                _playerAnimator.SetBool("Slide", false);
+                _playerAnimator.SetBool(Slide, false);
 
                 _playerBoxCollider.enabled = true;
             }   
@@ -147,13 +151,13 @@ public class PlayerController : MonoBehaviour
 
     private void CharacterJump()
     {
-        if (Input.GetButtonDown(_jump) && !_isJumping && !_isSliding)
+        if (Input.GetButtonDown(Jump) && !_isJumping && !_isSliding)
         {
             _jumpTime = 0f;
 
             _playerRigidBody.AddForce(transform.up * jumpForce);
 
-            _playerAnimator.SetBool(_jump, true);
+            _playerAnimator.SetBool(Jump, true);
 
             _isJumping = true;
 
@@ -169,13 +173,13 @@ public class PlayerController : MonoBehaviour
             {
                 _isJumping = false;
 
-                _playerAnimator.SetBool(_jump, false);
+                _playerAnimator.SetBool(Jump, false);
             }   
         }   
     }
 
 
-    public IEnumerator StopOutOfControl(int time)
+    private IEnumerator StopOutOfControl(int time)
     {
         yield return new WaitForSecondsRealtime(time);
 
@@ -191,7 +195,7 @@ public class PlayerController : MonoBehaviour
 
             _playerRigidBody.AddForce(transform.up * jumpForce);
 
-            _playerAnimator.SetBool(_jump, true);
+            _playerAnimator.SetBool(Jump, true);
 
             _isJumping = true;
 
@@ -207,7 +211,7 @@ public class PlayerController : MonoBehaviour
             {
                 _isJumping = false;
 
-                _playerAnimator.SetBool(_jump, false);
+                _playerAnimator.SetBool(Jump, false);
             }   
         }
     }

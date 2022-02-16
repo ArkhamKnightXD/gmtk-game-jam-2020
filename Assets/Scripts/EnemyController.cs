@@ -7,20 +7,20 @@ public class EnemyController : MonoBehaviour
 
     private bool _movingRight = true;
 
-    public float Speed = 5;
+    private const float Speed = 5;
 
     public Transform groundDetection;
 
     private RaycastHit2D _groundInformation;
 
-    private readonly float _distance = 2;
+    private const float Distance = 2;
 
     private readonly float _horizontalAxis = 2;
 
-    private readonly string alwaysJumpingTag = "HighJumpPlayer";
+    private readonly string _alwaysJumpingTag = "HighJumpPlayer";
     
-    private readonly string _horizontalAxisName = "HorizontalAxis";
-
+    private static readonly int HorizontalAxis = Animator.StringToHash("HorizontalAxis");
+    
 
     private void Awake()
     {
@@ -38,12 +38,12 @@ public class EnemyController : MonoBehaviour
     {
         gameObject.transform.Translate(right * (Speed * Time.deltaTime));
 
-        _groundInformation = Physics2D.Raycast(groundDetection.position,down,_distance);
+        _groundInformation = Physics2D.Raycast(groundDetection.position,down,Distance);
         
         if (_groundInformation.collider == false)
         {
 
-            _enemyAnimator.SetFloat(_horizontalAxisName , _horizontalAxis);
+            _enemyAnimator.SetFloat(HorizontalAxis , _horizontalAxis);
 
             if (_movingRight)
             {
@@ -65,7 +65,7 @@ public class EnemyController : MonoBehaviour
         if (!other.CompareTag("Player"))
             return;
         
-        other.tag = alwaysJumpingTag; 
+        other.tag = _alwaysJumpingTag; 
 
         Destroy(gameObject);
     }
